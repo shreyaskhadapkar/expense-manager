@@ -37,6 +37,7 @@ class ChartBar extends StatelessWidget {
                 heightFactor: this.totalSpending == 0.0
                     ? 0.0
                     : this.spendingAmount / this.totalSpending,
+                alignment: Alignment.bottomCenter,
                 child: Container(
                   decoration: BoxDecoration(
                     color: Theme.of(context).primaryColor,

@@ -4,11 +4,12 @@ import 'package:intl/intl.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
-  TransactionList(this.transactions);
+  final Function deleteTransaction;
+  TransactionList(this.transactions, this.deleteTransaction);
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 360,
+      height: 400,
       child: transactions.isEmpty
           ? Column(
               children: <Widget>[
@@ -48,28 +49,39 @@ class TransactionList extends StatelessWidget {
                         padding:
                             EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                       ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            transactions[index].title,
-                            style: Theme.of(context).textTheme.headline6,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 2.0, horizontal: 0),
-                            child: Text(
-                              DateFormat.yMMMEd()
-                                  .format(transactions[index].date),
-                              style: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                                fontSize: 15,
+                      Container(
+                        width: 150,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              transactions[index].title,
+                              style: Theme.of(context).textTheme.headline6,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 2.0, horizontal: 0),
+                              child: Text(
+                                DateFormat.yMMMEd()
+                                    .format(transactions[index].date),
+                                style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                  fontSize: 15,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
+                      IconButton(
+                        icon: Icon(Icons.delete),
+                        onPressed: () {
+                          deleteTransaction(transactions[index].id);
+                        },
+                        alignment: Alignment.topRight,
+                        color: Theme.of(context).errorColor,
+                      )
                     ],
                   ),
                 );

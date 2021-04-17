@@ -18,7 +18,8 @@ class MyApp extends StatelessWidget {
       title: 'Expense Manager',
       theme: ThemeData(
         primarySwatch: Colors.purple,
-        accentColor: Colors.amber,
+        accentColor: Color.fromRGBO(84, 66, 147, 0.999),
+        errorColor: Color.fromRGBO(255, 50, 50, 0.9),
         fontFamily: 'Quicksand',
         textTheme: ThemeData.light().textTheme.copyWith(
                 headline6: TextStyle(
@@ -69,15 +70,22 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  void _addNewTransaction(String title, double amount) {
+  void _addNewTransaction(
+      String title, double amount, DateTime transactionTime) {
     final newTx = Transaction(
       id: DateTime.now().toString(),
       title: title,
       amount: amount,
-      date: DateTime.now(),
+      date: transactionTime,
     );
     setState(() {
       _transactions.add(newTx);
+    });
+  }
+
+  void _deleteTransaction(String id) {
+    setState(() {
+      _transactions.removeWhere((element) => element.id == id);
     });
   }
 
@@ -119,7 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
             margin: EdgeInsets.all(5),
             color: Theme.of(context).primaryColorLight,
           ), //Chart
-          TransactionList(_transactions),
+          TransactionList(_transactions, _deleteTransaction),
         ]),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -129,7 +137,7 @@ class _MyHomePageState extends State<MyHomePage> {
         },
         child: Icon(Icons.add),
         backgroundColor: Theme.of(context).accentColor,
-        foregroundColor: Theme.of(context).primaryColorDark,
+        foregroundColor: Colors.white70,
         splashColor: Theme.of(context).accentColor,
         elevation: 3,
       ),
